@@ -1,0 +1,16 @@
+---
+- name: Copy bird.conf
+  copy:
+    dest: /etc/bird/bird.conf
+    src: bird.conf
+    owner: bird
+    group: bird
+    mode: '0640'
+    validate: '/usr/sbin/bird -p -c %s'
+  notify: restart bird
+- name: Enable bird service
+  systemd:
+    name: 'bird.service'
+    enabled: yes
+    masked: no
+    state: started

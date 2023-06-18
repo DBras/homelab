@@ -1,0 +1,14 @@
+---
+- name: Run apt update+upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+  register: apt_result
+- name: Log changed packages
+  debug:
+    msg: |
+      '{% for line in apt_result.stdout_lines 
+      if "newly installed" in line%}
+      {{ line }}
+      {% endfor %}'
+  when: apt_result.changed == true

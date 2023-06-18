@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /root/compose/traefik/traefik.yml:/traefik.yml:ro
+      - /root/compose/traefik/config.yml:/config.yml:ro
+      - /root/compose/traefik/acme/acme.json:/acme.json
+    labels:
+      - "log.level=DEBUG"
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=dbras:$$2y$$05$$EZn6xzBB/TDinWNvR7K5gO5nDD.Azcy.L6uCtniD9PZGvWZaiUgvG"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
+
+volumes:
+  acme:
+
+networks:
+  proxy:
+    external: true

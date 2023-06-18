@@ -1,0 +1,5 @@
+[revproxy]
+dummyct
+
+[labpi]
+185.38.175.82 ansible_user=setup

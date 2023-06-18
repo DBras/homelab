@@ -1,0 +1,36 @@
+#auto lo
+#iface lo inet loopback
+#	post-up ip addr add 2a0e:8f02:2251::0/128 dev lo
+
+######## Public ########
+auto eth0
+# IPv4
+iface eth0 inet static
+	address 185.38.175.82/26
+	gateway 185.38.175.65
+	dns-nameservers 1.1.1.1 8.8.8.8
+
+# IPv6
+iface eth0 inet6 static
+	address 2a0e:8f02:2251::1/48
+	gateway 2a01:4262:1ab:20::1
+
+######## Labitat ########
+auto eth0:0
+# Labitat v4
+iface eth0:0 inet static
+	address 10.42.1.82/24
+
+# Labitat v6
+iface eth0:0 inet6 static
+	address 2a01:4262:1ab:20::82/64
+
+######## LabIX ########
+auto eth0:1
+# LabIX v4
+iface eth0:1 inet static
+	address 185.0.29.11/24
+
+# LabIX v6
+iface eth0:1 inet6 static
+	address 2001:7f8:149:1ab::19:8886:1/64

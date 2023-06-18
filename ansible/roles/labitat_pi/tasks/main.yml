@@ -1,0 +1,21 @@
+---
+- import_tasks: apt.yml
+  tags:
+    - apt
+    - update
+    - deploy
+- import_tasks: interfaces.yml
+  tags:
+    - interfaces
+    - networking
+    - deploy
+- import_tasks: bird.yml
+  tags:
+    - bird
+    - deploy
+- name: Reboot machine
+  reboot:
+  tags: 
+    - reboot
+    - deploy
+    - never

@@ -1,0 +1,20 @@
+---
+- name: Run apt update+upgrade
+  apt:
+    upgrade: yes
+    update_cache: yes
+  register: apt_result
+- name: Install Docker Compose
+  package:
+    name:
+      - docker-compose
+      - python3-pip
+    state: latest
+- name: Log changed packages
+  debug:
+    msg: |
+      '{% for line in apt_result.stdout_lines 
+      if "newly installed" in line%}
+      {{ line }}
+      {% endfor %}'
+  when: apt_result.changed == true

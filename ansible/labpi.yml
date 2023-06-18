@@ -1,0 +1,4 @@
+---
+  - hosts: labpi
+    roles:
+      - labitat_pi

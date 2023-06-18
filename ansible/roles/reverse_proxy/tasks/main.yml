@@ -1,0 +1,24 @@
+---
+- import_tasks: apt.yml
+  tags:
+    - apt
+    - update
+    - always
+- import_tasks: pip.yml
+  tags:
+    - pip
+    - update
+    - always
+- import_tasks: traefik.yml
+  tags:
+    - traefik
+    - never
+- import_tasks: nginx.yml
+  tags:
+    - nginx
+    - never
+- name: Reboot machine
+  reboot:
+  tags: 
+    - reboot
+    - never

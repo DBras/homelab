@@ -1,0 +1,32 @@
+- name: Copy traefik.yml
+  copy:
+    dest: '/root/compose/traefik/traefik.yml'
+    src: traefik-traefik.yml
+    owner: root
+    group: root
+    mode: '0644'
+- name: Copy Traefik config
+  copy:
+    dest: '/root/compose/traefik/config.yml'
+    src: traefik-config.yml
+    owner: root
+    group: root
+    mode: '0644'
+- name: Copy Docker Compose file
+  copy:
+    dest: '/root/compose/traefik/compose.yml'
+    src: traefik-compose.yml
+    owner: root
+    group: root
+    mode: '0644'
+- name: Create Docker network "Proxy"
+  community.docker.docker_network:
+    name: proxy
+- name: Spin up Traefik Compose
+  community.docker.docker_compose:
+    project_src: '/root/compose/traefik/'
+    restarted: true
+  register: output
+- name: Show results
+  debug:
+    var: output

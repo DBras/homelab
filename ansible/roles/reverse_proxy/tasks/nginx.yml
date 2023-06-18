@@ -1,0 +1,22 @@
+---
+- name: Copy nginx.conf
+  copy:
+    dest: '/etc/nginx/nginx.conf'
+    src: nginx.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: reload nginx
+- name: Copy ixpmanager.conf
+  copy:
+    dest: '/etc/nginx/conf.d/ixpmanager.conf'
+    src: ixpmanager.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: reload nginx
+- name: Start nginx
+  systemd:
+    name: 'nginx.service'
+    enabled: yes
+    state: started

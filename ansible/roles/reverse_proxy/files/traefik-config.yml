@@ -1,0 +1,47 @@
+http:
+ #region routers 
+  routers:
+    ixpmanager:
+      entryPoints:
+        - "https"
+      rule: "Host(`ixpmanager.hafnium.me`)"
+      middlewares:
+        - default-headers
+        - https-redirectscheme
+      tls:
+        certResolver: staging
+      service: ixpmanager
+#endregion
+
+#region services
+  services:
+    ixpmanager:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.173:80"
+        passHostHeader: true
+#endregion
+
+  middlewares:
+    https-redirectscheme:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+    default-headers:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        customFrameOptionsValue: SAMEORIGIN
+        customRequestHeaders:
+          X-Forwarded-Proto: https
+
+    secured:
+      chain:
+        middlewares:
+        - default-headers
